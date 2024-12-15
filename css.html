@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HMIF</title>
+  <style>
+    /* Reset styles */
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+    }
+
+    /* Loader container */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    /* Circular loader */
+    .logo-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: conic-gradient(#090cc6 0%, #aba5a5 0%); /* Gradient for dynamic color */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation: rotate 1s linear infinite;
+    }
+
+    /* Image inside the circle */
+    .logo-container img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    /* Percentage text */
+    .percentage {
+      font-size: 24px;
+      margin-top: 20px;
+      color: #333;
+    }
+
+    /* Fade out effect for loader */
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* Optional rotate animation for logo (can be removed) */
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div id="loader">
+    <div class="logo-container" id="circle">
+      <img src="img/HIMA.jpeg" alt="Logo">
+    </div>
+    <div class="percentage" id="loading-percentage">0%</div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loader = document.getElementById("loader");
+      const content = document.getElementById("content");
+      const percentage = document.getElementById("loading-percentage");
+      const circle = document.getElementById("circle");
+
+      let load = 0;
+
+      // Simulate loading progress
+      const interval = setInterval(() => {
+        load++;
+        percentage.textContent = `${load}%`;
+
+        // Update the green progress circle
+        circle.style.background = `conic-gradient(#4CAF50 ${load}%, #ccc ${load}%)`;
+
+        if (load >= 100) {
+          clearInterval(interval);
+
+          // Apply fade-out animation to the loader
+          loader.style.animation = "fadeOut 1s ease-in-out forwards";
+
+          // Show content after fade-out
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000); // Delay matches fadeOut duration
+        }
+      }, 30); // Adjust speed of loading (30ms per step)
+    });
+  </script>
+</body>
+</html>
